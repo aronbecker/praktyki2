@@ -1,4 +1,4 @@
-# \# SkokiFirmy
+# \# 🚀 SkokiFirmy
 
 # 
 
@@ -6,51 +6,71 @@
 
 # 
 
-# Projekt \*\*SkokiFirmy\*\* powstał z myślą o mieszkańcach Gminy Skoki. Jego głównym celem jest \*\*ułatwienie znajdowania sprawdzonych, rzetelnych fachowców i lokalnych firm\*\* oferujących różnorodne usługi.
+# Projekt \*\*SkokiFirmy\*\* został stworzony, aby \*\*ułatwić mieszkańcom Gminy Skoki znajdowanie dobrych i sprawdzonych fachowców oraz lokalnych firm\*\*. Platforma ma służyć jako wiarygodne źródło kontaktów i rekomendacji.
 
 # 
 
-# \## 🛠️ Podsumowanie Techniczne
+# ---
 
 # 
 
-# | Element | Opis |
+# \## 📅 Informacje o Projekcie
+
+# 
+
+# | Wskaźnik | Wartość |
 
 # | :--- | :--- |
 
-# | \*\*Status\*\* | W trakcie rozwoju |
+# | \*\*Zakres\*\* | Gmina Skoki |
+
+# | \*\*Status\*\* | W trakcie rozwoju (Development) |
 
 # | \*\*Szacowany Czas Wykonania\*\* | 1 miesiąc |
 
-# | \*\*Wykorzystane Technologie\*\* | \* (Miejsce na dodanie technologii: np. Python/Flask, HTML, CSS, SQLite/PostgreSQL) \* |
+# 
+
+# ---
 
 # 
 
-# \## 👥 Autorzy i Zespół
+# \## 🧑‍💻 Autorzy
 
 # 
 
-# | Rola | Imię i Nazwisko |
-
-# | :--- | :--- |
-
-# | \*\*Deweloper\*\* | Aron Becker |
-
-# | \*\*Deweloper\*\* | Błażej Kubicki |
-
-# | \*\*Deweloper\*\* | Dawid Kruczek |
+# Projekt został zrealizowany przez zespół w składzie:
 
 # 
 
-# \## 🚀 Jak Uruchomić (Dla Deweloperów)
+# \* \*\*Aron Becker\*\*
+
+# \* \*\*Błażej Kubicki\*\*
+
+# \* \*\*Dawid Kruczek\*\*
 
 # 
 
-# 1\. \*\*Klonowanie repozytorium:\*\*
+# ---
 
-# &nbsp;  ```bash
+# 
 
-# &nbsp;  git clone https://github.com/aronbecker/praktyki2.git
+# \## ⚙️ Uruchomienie Lokalnie (Dla Deweloperów)
 
-# &nbsp;  cd praktyki2
+# 
+
+# 
+
+# 
+
+# \### Wymagania wstępne
+
+# 
+
+# 
+
+# \### Instrukcja
+
+# 
+
+# 
 
