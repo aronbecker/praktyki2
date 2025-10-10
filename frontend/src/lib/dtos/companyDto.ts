@@ -1,7 +1,7 @@
 import type { AddressDto } from "./adresDto";
 
 export type CompanyDto = {
-    id: string;
+    id: number;
     name: string;
     phoneNumber?: string;
     email?: string;

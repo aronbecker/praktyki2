@@ -1,5 +1,5 @@
 export type OpinionDto = {
-    id: string;
+    id: number;
     rating: number;
     text?: string;
     userName: string;
