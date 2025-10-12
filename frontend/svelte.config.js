@@ -16,6 +16,9 @@ const config = {
             "@/*": "./path/to/lib/*",
         },
     },
+    optimizeDeps: {
+        exclude: ["layercake"],
+    }
 };
 
 export default config;

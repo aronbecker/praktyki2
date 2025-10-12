@@ -7,5 +7,6 @@ export type CompanyDto = {
     email?: string;
     website?: string;
     owenerName: string;
+    rating: number;
     address: AddressDto;
 }
