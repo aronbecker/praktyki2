@@ -1,5 +1,5 @@
 class CompanyDto:
-    def __init__(self, id: int, name: str, phoneNumber: str, email: str, website: str, ownerName: str, address: any):
+    def __init__(self, id: int, name: str, phoneNumber: str, email: str, website: str, ownerName: str, address: any, rating: int):
         self.id = id
         self.name = name
         self.phoneNumber = phoneNumber
@@ -7,3 +7,4 @@ class CompanyDto:
         self.website = website
         self.ownerName = ownerName
         self.address = address
+        self.rating = rating
