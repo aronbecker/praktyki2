@@ -15,6 +15,10 @@
   align-items: center;
 }
 
+.styled_input {
+  height: 2.5rem;
+}
+
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
