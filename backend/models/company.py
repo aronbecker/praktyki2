@@ -12,3 +12,14 @@ class Company(db.Model):
 
     categories = db.relationship('CompanyCategory', backref='company', lazy=True)
     opinions = db.relationship('CompanyOpinion', backref='company', lazy=True)
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'phone_number': self.phone_number,
+            'email': self.email,
+            'owner_name': self.owner_name,
+            'website_url': self.website_url,
+            'address_id': self.address_id,
+        }
