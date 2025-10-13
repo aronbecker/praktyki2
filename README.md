@@ -56,8 +56,12 @@
 
 # \## ⚙️ Uruchomienie Lokalnie (Dla Deweloperów)
 
-# 
+## Frontend
+`cd frontend` - przejście do folderu
 
+`npm i` - zainstalowanie zależności
+
+`npm run dev` - uruchomienie aplikacji
 # 
 
 # 
