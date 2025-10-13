@@ -62,9 +62,23 @@
 `npm i` - zainstalowanie zależności
 
 `npm run dev` - uruchomienie aplikacji
-# 
 
-# 
+## Backend
+`cd backend` - przejście do folderu
+
+`pip install -r requirements.txt` - zainstalowanie zależności
+
+Uruchomić lokalną baze danych mysql
+
+Stwórz plik `.env` ze zmienną `db_URI`, która powinna być ustawiona na adres bazy danych mysql (dla dewelopmentu lokalna)
+
+`flask db init` - inicjuje lokalnie moduł bazodanowy (użyć tylko raz) 
+
+`flask db migrate -m "Initial migration."` - tworzy migracje, (używać jej zawsze gdy zmienia się strukturę bazy danych)
+
+`flask db upgrade` - komenda zapisująca zmiany w bazie danych (używać po użyciu komendy `migrate`)
+
+`python app.py` - uruchamia serwer 
 
 # \### Wymagania wstępne
 
