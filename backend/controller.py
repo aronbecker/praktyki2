@@ -16,3 +16,11 @@ def home():
         [company.to_dict() for company in companies]
     ) 
 
+@page.route('/company/<int:company_id>')
+def get_company(company_id):
+    company = Company.query.get(company_id)
+
+    if company is None:
+        return jsonify({"error": "Company not found"}), 404
+
+    return jsonify(company.to_dict())
