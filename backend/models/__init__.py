@@ -7,3 +7,5 @@ from .category_keyword import CategoryKeyWord
 from .user import User
 from .opinion import Opinion
 from .company_opinion import CompanyOpinion
+from .session import Session
+from .extensions import db

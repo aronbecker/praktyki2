@@ -1,6 +1,7 @@
 from flask import Blueprint
-from models import Company
-from flask import request, jsonify
+from models import Company, User
+from flask import request, jsonify, abort
+from authHandler import authenticate, AuthenticationResult
 
 page = Blueprint('page', __name__)
 
@@ -24,3 +25,22 @@ def get_company(company_id):
         return jsonify({"error": "Company not found"}), 404
 
     return jsonify(company.to_dict())
+
+@page.route('/me')
+def me():
+    auth: AuthenticationResult = authenticate(request)
+
+    if not auth.isAuthenticated:
+        return abort(403)
+
+    userId = auth.session.user_id
+
+    user: User = User.query.filter_by(id=userId).first()
+    if not user:
+        return abort(403)
+
+    return jsonify({
+        "email": user.email,
+        "firstname": user.firstname,
+        "lastname": user.lastname,
+    })

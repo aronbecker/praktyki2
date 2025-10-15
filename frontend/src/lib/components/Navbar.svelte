@@ -1,16 +1,26 @@
-<script>
+<script lang="ts">
     import { Button } from "$lib/components/ui/button/index.js";
     import SignIn from "@lucide/svelte/icons/log-in";
     import { setDialog } from "$lib/stores/dialogStore";
+    import { userStore } from "$lib/stores/userStore";
+    import type { UserData } from "$lib/stores/userStore";
+    import UserMenu from "./UserMenu.svelte";
+
+    let userData: UserData | null = null
+    userStore.subscribe(ud => userData = ud)
 </script>
 
 <nav class="w-full h-4 row from-[#1F4067] to-[#1F4067/10] bg-linear-to-r">
     <img src="logo_skoki.png" width="80px" alt="">
-    <h2 class="font-bold text-2xl">FirmaSkoki</h2>
-    <Button onclick={() => setDialog(1)} class="bg-transparent ml-auto cursor-pointer" variant="outline">
-        <SignIn />
-        Zaloguj się
-    </Button>
+    <h2 class="font-bold text-2xl mr-auto">FirmaSkoki</h2>
+    {#if userData}
+        <UserMenu firstname={userData.firstname} lastname={userData.lastname}/>
+    {:else}
+        <Button onclick={() => setDialog(1)} class="bg-transparent cursor-pointer" variant="outline">
+            <SignIn />
+            Zaloguj się
+        </Button>
+    {/if}
 </nav>
 
 <style>

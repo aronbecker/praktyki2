@@ -5,6 +5,8 @@
     import Lock from "@lucide/svelte/icons/lock-keyhole";
     import Button from "$lib/components/ui/button/button.svelte";
     import { Validator } from "$lib/validator";
+    import { Login } from "$lib/authFunctions";
+    import { toast } from "svelte-sonner";
 
     let email = ""
     let password = ""
@@ -19,8 +21,21 @@
         isFormValid = validator.isValid()
     }
 
-    function signIn() {
-        alert("Zalogowano");
+    async function signIn() {
+        const res = await Login({
+            email,
+            password
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            toast.error("Błąd podczas logowania", {
+                description: data.error})
+            return
+        }
+        
+        window.location.reload()
     }
 
     const labelStyle = "row gap-2 mr-auto"

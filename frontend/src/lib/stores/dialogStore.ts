@@ -2,9 +2,9 @@ import { writable } from 'svelte/store';
 
 export const dialogStore = writable(0);
 
-type dialogType = 0 | 1;
+type DialogType = 0 | 1;
 
-export function setDialog(type: dialogType) {
+export function setDialog(type: DialogType) {
     dialogStore.set(type);
 }
 

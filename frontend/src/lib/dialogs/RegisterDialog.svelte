@@ -1,10 +1,12 @@
-<script>
+<script lang="ts">
     import Input from "$lib/components/ui/input/input.svelte";
     import { Label } from "$lib/components/ui/label/index.js";
     import Mail from "@lucide/svelte/icons/mail";
     import Lock from "@lucide/svelte/icons/lock-keyhole";
     import Button from "$lib/components/ui/button/button.svelte";
     import { Validator } from "$lib/validator";
+    import { Register } from "$lib/authFunctions";
+    import { toast } from "svelte-sonner";
 
     let email = ""
     let password = ""
@@ -13,21 +15,37 @@
     let isFormValid = false
 
     const validator = new Validator()
+    let onlyLetters = (str: string) => /^[a-zA-Z]+$/.test(str)
 
     validator.addEmailField("email", () => email)
     validator.addField("password", () => password, 
         (str) => str.length >= 4)
     validator.addField("firstname", () => firstname, 
-        (str) => str.length >= 3)
+        (str) => str.length >= 3 && onlyLetters(str))
     validator.addField("lastname", () => lastname, 
-        (str) => str.length >= 3)
+        (str) => str.length >= 3  && onlyLetters(str))
 
     function validate() {
         isFormValid = validator.isValid()
     }
     
-    function register() {
-        alert("Zarejestrowano");
+    async function register() {
+        const res = await Register({
+            email,
+            password,
+            firstname,
+            lastname
+        })
+
+        const data = await res.json()
+
+        if (!res.ok) {
+            toast.error("Błąd podczas rejestracji", {
+                description: data.error})
+            return
+        }
+            
+        window.location.reload()
     }
 
     const labelStyle = "row gap-2 mr-auto"
@@ -43,7 +61,7 @@
 
         <div class="column gap-2" style="align-items: start;">
             <Label for="lastname" class="{color}">Nazwisko</Label>
-            <Input autocomplete="family-name" bind:value={lastname} maxlength={35} class="styled_input" id="lastname" placeholder="Kowalski" />
+            <Input onkeydown={(event) => /[a-z]/i.test(event.key)} autocomplete="family-name" bind:value={lastname} maxlength={35} class="styled_input" id="lastname" placeholder="Kowalski" />
         </div>
     </div>
 
