@@ -35,6 +35,9 @@ def registerValidation(email, password, first_name, last_name) -> bool:
     if not isinstance(last_name, str) or len(last_name) < 3 or len(last_name) > 35:
         return False
     
+    if not first_name.strip().isalpha() or not last_name.strip().isalpha():
+        return False 
+
     return True
 
 
