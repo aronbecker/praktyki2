@@ -2,11 +2,15 @@
     import { Button } from "$lib/components/ui/button";
     import Input from "$lib/components/ui/input/input.svelte";
     import { fetcher } from "$lib/fetcher";
+    import { Validator } from "$lib/validator";
     import { toast } from "svelte-sonner";
 
     const inputStyles = "h-12"
     const doubleInputWrapper = "row gap-2"
     const descriptinonStyles = "mr-auto ml-2"
+    
+    const validator = new Validator()
+    let isFormValid = false
 
     let name = ""
     let owner = ""
@@ -20,6 +24,19 @@
 
     let categories: String[] = []
     let newCategory = ""
+
+    validator.addField("name", () => name, (str) => str.length > 2)
+    validator.addField("owner", () => owner, (str) => str.length > 1)
+    validator.addField("phone", () => phone, 
+        (str) => str.replaceAll(" ", "").length == 9 || str.length == 0)
+    validator.addField("town", () => town, (str) => str.length > 3)
+    validator.addField("street", () => street, (str) => str.length > 2)
+    validator.addField("building", () => building, (str) => str.length > 0)
+
+
+    function validate() {
+        isFormValid = validator.isValid()
+    }
 
     function addCategory() {
         const cat = (newCategory || "").trim()
@@ -69,7 +86,7 @@
     }
 </script>
 
-<div class="column m-auto gap-4 p-4 overflow-auto">
+<form oninput={validate} class="column m-auto gap-4 p-4 overflow-auto">
     <h2 class="text-center font-bold text-3xl text-gray-300 mb-6">Formularz <br> dodawania nowej firmy</h2>
     <p class={descriptinonStyles}>Informacje podstawowe</p>
     <Input bind:value={name} class={inputStyles} placeholder="Nazwa" type="text" />
@@ -107,7 +124,7 @@
         {#each categories as cat, i}
             <div class="row items-center gap-2 px-3 py-1 rounded-full bg-gray-700 text-white">
                 <span>{cat}</span>
-                <button class="ml-2 text-sm text-red-300" aria-label="Usuń kategorię" on:click={() => removeCategory(i)}>✕</button>
+                <button class="ml-2 text-sm text-red-300" aria-label="Usuń kategorię" onclick={() => removeCategory(i)}>✕</button>
             </div>
         {/each}
         {#if categories.length === 0}
@@ -115,5 +132,5 @@
         {/if}
     </div>
 
-    <Button onclick={create} class="w-full h-12">Stwórz</Button>
-</div>
+    <Button onclick={create} disabled={!isFormValid} class="w-full h-12">Stwórz</Button>
+</form>
