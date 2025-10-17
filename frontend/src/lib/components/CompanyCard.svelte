@@ -20,8 +20,10 @@
     <Card.Header>
         <div class={rowStyle}>
             <Card.Title class="text-lg">{company.name}</Card.Title>
-            <Star class="w-4 ml-auto" color="gold" fill="gold"/>
-            <p class={color}>{company.rating}</p>
+            {#if company.rating}
+                <Star class="w-4 ml-auto" color="gold" fill="gold"/>
+                <p class={color}>{company.rating}</p>
+            {/if}
         </div>
     </Card.Header>
     <Card.Content class="space-y-2">
@@ -29,10 +31,10 @@
             <Location class={iconsStyles} />
             <p class={color}>{address.town}, {address.street} {address.buildingNumber}{address.apartmentNumber ? "/" + address.apartmentNumber : ""}</p>
         </div>
-        {#if company.phoneNumber}
+        {#if company.phone_number}
             <div class={rowStyle}>
                 <Phone class={iconsStyles} />
-                <p class="{color} text-white">{company.phoneNumber}</p>
+                <p class="{color} text-white">{company.phone_number}</p>
             </div>
         {/if}
         {#if company.email}
@@ -41,10 +43,10 @@
                 <p class={color}>{company.email}</p>
             </div>
         {/if}
-        {#if company.website}
+        {#if company.website_url}
             <div class={rowStyle}>
                 <Globe class={iconsStyles} />
-                <a target="_blank" href="https://{company.website}" class="{color} text-primary">{company.website}</a>
+                <a target="_blank" href="https://{company.website_url}" class="{color} text-primary">{company.website_url}</a>
             </div>
         {/if}
     </Card.Content> 

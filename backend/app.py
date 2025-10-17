@@ -6,7 +6,8 @@ from flask import Flask
 import pymysql
 from flask_migrate import Migrate
 from controller import page 
-from authController import auth 
+from authController import auth
+from adminController import admin
 from flask_cors import CORS
 
 load_dotenv()
@@ -26,10 +27,11 @@ migrate = Migrate(app, db)
 
 app.register_blueprint(page)
 app.register_blueprint(auth)
+app.register_blueprint(admin)
 
 webAppUrl = os.getenv('webapp_URL')
-originList = ["http://localhost:5173/"]
-if webAppUrl:
+originList = ["http://localhost:5173"]
+if webAppUrl != None:
     originList[0] = webAppUrl
 
 CORS(app, supports_credentials=True, origins=originList)

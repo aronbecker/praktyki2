@@ -1,3 +1,4 @@
+from models.user import User
 from models import Session
 
 class AuthenticationResult:
@@ -24,3 +25,6 @@ def authenticate(request) -> AuthenticationResult:
     result.isAuthenticated = True
     result.session = session
     return result
+
+def isAdmin(user: User) -> bool:
+    return user.role == "admin"

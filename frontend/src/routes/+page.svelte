@@ -1,10 +1,19 @@
 <script lang="ts">
+    import { getCompanies } from "$lib/companies";
     import CompanyCard from "$lib/components/CompanyCard.svelte";
     import FilterAndSortBar from "$lib/components/FilterAndSortBar.svelte";
     import SearchBar from "$lib/components/SearchBar.svelte"; 
+    import Button from "$lib/components/ui/button/button.svelte";
 
     let { data } = $props();
-    let companies = data.companies
+    let companies = $state(data.page.companies)
+    let currentPage = $state(0)
+
+    async function loadMoreCompanies() {
+        currentPage += 1
+        const newPage = await getCompanies(currentPage)
+        companies = [...companies, ...newPage.companies]
+    }
 
     function onSearch(text: String) {
         alert("Wyszukiwanie " + text)
@@ -26,3 +35,8 @@
         <CompanyCard {company}/>
     {/each}
 </div>
+{#if data.page.pages - 1 != currentPage}
+    <div class="w-max mx-auto">
+        <Button onclick={loadMoreCompanies}>Załaduj więcej</Button>
+    </div>    
+{/if}

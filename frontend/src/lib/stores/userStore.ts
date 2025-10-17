@@ -6,4 +6,5 @@ export type UserData = {
     email: string
     firstname: string
     lastname: string
+    role: 'user' | 'admin'
 }

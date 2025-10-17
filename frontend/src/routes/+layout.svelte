@@ -4,15 +4,16 @@
     import Navbar from '$lib/components/Navbar.svelte';
 	import { ModeWatcher } from "mode-watcher";
     import DialogsProvider from '$lib/dialogs/DialogsProvider.svelte';
-    import { userStore } from '$lib/stores/userStore';
+    import { userStore, type UserData } from '$lib/stores/userStore';
     import Sonner from '$lib/components/ui/sonner/sonner.svelte';
 
 	let { children, data } = $props();
 	let { userData } = data
 	
 	if (userData) {
-		userStore.update(u => {
-			return userData
+		userStore.update((u) => {
+			u = userData
+			return u
 		})
 	}
 </script>

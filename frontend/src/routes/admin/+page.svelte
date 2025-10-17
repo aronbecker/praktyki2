@@ -1,0 +1,1 @@
+<h1 class="text-6xl px-4 text-input/30 font-bold m-auto text-center text-wrap hidden lg:flex">PANEL ADMINISTRATORA</h1>

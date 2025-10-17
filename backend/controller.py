@@ -5,17 +5,22 @@ from authHandler import authenticate, AuthenticationResult
 
 page = Blueprint('page', __name__)
 
+
 @page.route('/companies')
 def home():
     page = request.args.get("page")
     if page == None or not page.isdigit() or int(page) < 0:
         page = 0
 
-    companies = Company.query.paginate(per_page=20, page=int(page)+1).items
+    page = Company.query.paginate(per_page=20, page=int(page)+1)
+    companies = page.items
 
-    return jsonify(
-        [company.to_dict() for company in companies]
-    ) 
+    return jsonify({
+        'pages': page.pages,
+        'companies': 
+            [company.to_dict() for company in companies]
+    })
+
 
 @page.route('/company/<int:company_id>')
 def get_company(company_id):
@@ -25,6 +30,7 @@ def get_company(company_id):
         return jsonify({"error": "Company not found"}), 404
 
     return jsonify(company.to_dict())
+
 
 @page.route('/me')
 def me():
@@ -43,4 +49,5 @@ def me():
         "email": user.email,
         "firstname": user.firstname,
         "lastname": user.lastname,
+        "role": user.role
     })

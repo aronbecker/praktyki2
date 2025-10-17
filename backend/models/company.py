@@ -8,9 +8,17 @@ class Company(db.Model):
     email = db.Column(db.String(255))
     owner_name = db.Column(db.String(255))
     website_url = db.Column(db.String(255))
-    address_id = db.Column(db.BigInteger, db.ForeignKey('address.id'))
+    rating = db.Column(db.SMALLINT, default=0)
 
-    categories = db.relationship('CompanyCategory', backref='company', lazy=True)
+    def __init__(self, name, phone_number, email, owner_name, website_url):
+        self.name = name
+        self.phone_number = phone_number
+        self.email = email
+        self.owner_name = owner_name
+        self.website_url = website_url
+
+    address = db.relationship('Address', back_populates='company', uselist=False,  lazy=False)
+    categories = db.relationship('Category', secondary='company_category', backref='company', lazy=True)
     opinions = db.relationship('CompanyOpinion', backref='company', lazy=True)
     
     def to_dict(self):
@@ -21,5 +29,11 @@ class Company(db.Model):
             'email': self.email,
             'owner_name': self.owner_name,
             'website_url': self.website_url,
-            'address_id': self.address_id,
+            'rating': self.rating,
+            'address': {
+                'town': self.address.town,
+                'street': self.address.street,
+                'buildingNumber': self.address.building_number,
+                'apartmentNumber': self.address.apartment_number
+            },
         }

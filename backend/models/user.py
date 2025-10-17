@@ -9,5 +9,6 @@ class User(db.Model):
     lastname = db.Column(db.String(255))
     password = db.Column(db.String(255), nullable=False)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
+    role = db.Column(db.String(50), nullable=False, server_default='user', default='user')
 
     opinions = db.relationship('Opinion', backref='user', lazy=True)
