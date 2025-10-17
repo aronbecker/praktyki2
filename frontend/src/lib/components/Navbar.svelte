@@ -11,8 +11,8 @@
 </script>
 
 <nav class="w-full h-4 row from-[#1F4067] to-[#1F4067/10] bg-linear-to-r">
-    <img src="logo_skoki.png" width="80px" alt="">
-    <h2 class="font-bold text-2xl mr-auto">FirmaSkoki</h2>
+    <img src="/logo_skoki.png" width="80px" alt="">
+    <a href="/" class="font-bold text-2xl mr-auto">FirmaSkoki</a>
     {#if userData}
         <UserMenu firstname={userData.firstname} lastname={userData.lastname}/>
     {:else}
