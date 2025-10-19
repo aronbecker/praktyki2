@@ -12,7 +12,7 @@
         <Button text="Dodaj firmę" onclick={async () => await goto("/admin/addCompany")}>
             <Plus class="text-gray-300"/>
         </Button>
-        <Button text="Lista firm" onclick={() => {}}>
+        <Button text="Lista firm" onclick={async () => await goto("/admin/companies")}>
             <Building2 class="text-gray-300"/>
         </Button>
     </div>
