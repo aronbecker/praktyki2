@@ -1,3 +1,5 @@
+import { error, redirect } from "@sveltejs/kit"
+
 export async function fetcher(url: string, opts: FetcherOptions) {
     let headers = new Headers()
 
@@ -7,13 +9,17 @@ export async function fetcher(url: string, opts: FetcherOptions) {
 
     setIfAbsent(headers, "Content-type", "application/json;charset=UTF-8")
 
-    return await fetch(url, {
-        body: opts.method === "GET" ? null : opts.body,
-        method: opts.method,
-        credentials: opts.credentials ? "include" : "same-origin",
-        mode: "cors",
-        headers: headers
-    })
+    try {
+        return await fetch(url, {
+            body: opts.method === "GET" ? null : opts.body,
+            method: opts.method,
+            credentials: opts.credentials ? "include" : "same-origin",
+            mode: "cors",
+            headers: headers
+        })
+    } catch {
+        throw redirect(303, `/error?status=500`);
+    }
 } 
 
 function setIfAbsent(headers: Headers, header: string, value: string) {
