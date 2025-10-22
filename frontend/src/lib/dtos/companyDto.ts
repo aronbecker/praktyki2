@@ -8,5 +8,6 @@ export type CompanyDto = {
     website_url?: string;
     owner_name: string;
     rating: number;
+    ratingCount: number;
     address: AddressDto;
 }

@@ -11,6 +11,7 @@ def calculateCompanyRating(company_id: int):
         total += o.rating
 
     company.rating = total // opinionsCount
+    company.ratingCount = opinionsCount
 
     db.session.commit()
 

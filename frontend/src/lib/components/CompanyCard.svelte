@@ -28,7 +28,7 @@
             <Card.Title class="text-lg">{company.name}</Card.Title>
             {#if company.rating}
                 <Star class="w-4 ml-auto" color="gold" fill="gold"/>
-                <p class={color}>{company.rating}</p>
+                <p class={color}>{company.rating}.0 <span class="text-gray-400 text-sm">({company.ratingCount})</span></p>
             {/if}
         </div>
     </Card.Header>

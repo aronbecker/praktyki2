@@ -9,6 +9,7 @@ class Company(db.Model):
     owner_name = db.Column(db.String(255))
     website_url = db.Column(db.String(255))
     rating = db.Column(db.SMALLINT, default=0)
+    ratingCount = db.Column(db.Integer, default=0)
 
     def __init__(self, name, phone_number, email, owner_name, website_url):
         self.name = name
@@ -30,6 +31,7 @@ class Company(db.Model):
             'owner_name': self.owner_name,
             'website_url': self.website_url,
             'rating': self.rating,
+            'ratingCount': self.ratingCount,
             'address': {
                 'town': self.address.town,
                 'street': self.address.street,

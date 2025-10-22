@@ -77,7 +77,7 @@
                     {#each stars as s}
                         <Star class="w-4 ml-auto" color="gold" fill="gold"/>
                     {/each}
-                    {company.rating}
+                    {company.rating}.0 <span class="text-gray-400 text-sm">({company.ratingCount})</span>
                 </div>    
             {/if}
         </div>
