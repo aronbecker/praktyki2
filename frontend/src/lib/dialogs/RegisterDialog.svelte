@@ -15,7 +15,7 @@
     let isFormValid = false
 
     const validator = new Validator()
-    let onlyLetters = (str: string) => /^[a-zA-Z]+$/.test(str)
+    let onlyLetters = (str: string) => /^[a-zA-ZąćęłńóśźżĄĆĘŁŃÓŚŹŻ]+$/u.test(str)
 
     validator.addEmailField("email", () => email)
     validator.addField("password", () => password, 
