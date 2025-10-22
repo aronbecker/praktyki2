@@ -17,7 +17,7 @@ export async function getSingleCompany(id: number): Promise<CompanyDto> {
 }
 
 export async function getCompanyComments(companyId: number) {
-    const res = await fetcher(`${BACKEND_URL}/company/${companyId}/opinions`, {
+    const res = await fetcher(`${BACKEND_URL}/company/${companyId}/comments`, {
         method: "GET"
     })
     return res.json()

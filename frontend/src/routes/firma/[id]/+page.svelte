@@ -24,7 +24,7 @@
 
     let starsInput = $state(0)
     let comment = $state("")
-    let comments = $state(data.comments.opinions)
+    let comments = $state(data.comments.comments)
     
     const hasWebsite = company.website_url && company.website_url != ""
     const hasEmail = company.email && company.email != ""
@@ -41,7 +41,7 @@
             comment: comment
         })
         
-        const response = await fetcher(`/api/opinion?companyId=${company.id}`, {
+        const response = await fetcher(`/api/comments?companyId=${company.id}`, {
             method: "POST",
             body: json,
         })

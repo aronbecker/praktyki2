@@ -14,7 +14,7 @@ export async function POST({ request, cookies, url }) {
     const companyId = Number(url.searchParams.get('companyId') ?? '1');
 
     const data = await request.json()
-    const res = await fetcher(`${BACKEND_URL}/company/${companyId}/opinions`, {
+    const res = await fetcher(`${BACKEND_URL}/company/${companyId}/comments`, {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: true,

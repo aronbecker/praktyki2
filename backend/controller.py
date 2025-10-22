@@ -60,7 +60,7 @@ def me():
     })
 
 
-@page.route('/company/<int:company_id>/opinions', methods=['POST'])
+@page.route('/company/<int:company_id>/comments', methods=['POST'])
 def add_opinion(company_id):
     auth: AuthenticationResult = authenticate(request)
 
@@ -103,15 +103,15 @@ def add_opinion(company_id):
     return "", 200
 
 
-@page.route('/company/<int:company_id>/opinions', methods=['GET'])
-def get_company_opinions(company_id):
+@page.route('/company/<int:company_id>/comments', methods=['GET'])
+def get_company_comments(company_id):
     company = Company.query.get(company_id)
 
     if company is None:
         return jsonify({"error": "Nie znaleźiono firmy"}), 404
 
     return jsonify({
-        "opinions": [
+        "comments": [
             o.toStr() for o in company.opinions
         ]
     })
