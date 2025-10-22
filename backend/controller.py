@@ -42,15 +42,10 @@ def get_company(company_id):
 @page.route('/me')
 def me():
     auth: AuthenticationResult = authenticate(request)
-
     if not auth.isAuthenticated:
         return abort(403)
 
-    userId = auth.session.user_id
-
-    user: User = User.query.filter_by(id=userId).first()
-    if not user:
-        return abort(403)
+    user = auth.session.user
 
     return jsonify({
         "email": user.email,
@@ -63,20 +58,16 @@ def me():
 @page.route('/company/<int:company_id>/comments', methods=['POST'])
 def add_opinion(company_id):
     auth: AuthenticationResult = authenticate(request)
-
     if not auth.isAuthenticated:
         return abort(403)
 
-    user_id = auth.session.user_id
-    user = User.query.filter_by(id=user_id).first()
-    if not user:
-        return abort(403)
+    user = auth.session.user
 
     company = Company.query.get(company_id)
     if not company:
         return jsonify({"error": "Nie znaleziono firmy o podanym ID."}), 404
 
-    existing_opinion = Opinion.query.filter_by(user_id=user_id).filter(Opinion.company.has(id=company_id)).first()
+    existing_opinion = Opinion.query.filter_by(user_id=auth.session.user_id).filter(Opinion.company.has(id=company_id)).first()
     if existing_opinion:
         return jsonify({"error": "Dodałeś już opinię o tej firmie."}), 409
 

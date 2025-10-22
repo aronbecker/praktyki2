@@ -8,18 +8,9 @@ admin = Blueprint('admin', __name__)
 
 @admin.route('/admin/addCompany', methods=['POST'])
 def addCompany():
-    isAuth = authenticate(request)
+    user = throwIfNotAdmin(request)
+    if (user == None): return
     
-    if not isAuth.isAuthenticated:
-        return abort(403)
-    
-    userId = isAuth.session.user_id
-
-    user: User = User.query.filter_by(id=userId).first_or_404()
-
-    if not isAdmin(user):
-        return abort(403)
-
     data = request.get_json()
 
     name = data.get('name').strip()
@@ -68,17 +59,8 @@ def addCompany():
 
 @admin.route('/admin/company/<int:company_id>', methods=["PATCH"])
 def editCompany(company_id):
-    isAuth = authenticate(request)
-    
-    if not isAuth.isAuthenticated:
-        return abort(403)
-    
-    userId = isAuth.session.user_id
-
-    user: User = User.query.filter_by(id=userId).first_or_404()
-
-    if not isAdmin(user):
-        return abort(403)
+    user = throwIfNotAdmin(request)
+    if (user == None): return
     
     company = Company.query.filter_by(id=company_id).first_or_404()
 
@@ -102,18 +84,9 @@ def editCompany(company_id):
 
 @admin.route('/admin/company/<int:company_id>', methods=['DELETE'])
 def deleteCompany(company_id):
-    isAuth = authenticate(request)
-    
-    if not isAuth.isAuthenticated:
-        return abort(403)
-    
-    userId = isAuth.session.user_id
+    user = throwIfNotAdmin(request)
+    if (user == None): return
 
-    user: User = User.query.filter_by(id=userId).first_or_404()
-
-    if not isAdmin(user):
-        return abort(403)
-    
     company: Company = Company.query.filter_by(id=company_id).first_or_404()
 
     company.categories.clear()
@@ -123,3 +96,20 @@ def deleteCompany(company_id):
     db.session.commit()
 
     return "", 200
+
+def throwIfNotAdmin(request_) -> User:
+    isAuth = authenticate(request_)
+    
+    if not isAuth.isAuthenticated:
+        abort(403)
+        return None
+    
+    userId = isAuth.session.user_id
+
+    user: User = User.query.filter_by(id=userId).first_or_404()
+
+    if not isAdmin(user):
+        abort(403)
+        return None
+    
+    return user
