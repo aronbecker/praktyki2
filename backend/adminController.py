@@ -22,15 +22,15 @@ def addCompany():
 
     data = request.get_json()
 
-    name = data.get('name')
-    ownerName = data.get('ownerName')
-    phoneNumber = data.get("phoneNumber")
-    email = data.get("email")
-    website = data.get("website")
+    name = data.get('name').strip()
+    ownerName = data.get('ownerName').strip()
+    phoneNumber = data.get("phoneNumber").strip()
+    email = data.get("email").strip()
+    website = data.get("website").strip()
     categories = data.get("categories")
-    town = data.get("town")
-    street = data.get("street")
-    building_number = data.get("building_number")
+    town = data.get("town").strip()
+    street = data.get("street").strip()
+    building_number = data.get("building_number").strip()
     apartment_number = data.get("apartment_number")
 
     addres = Address(
@@ -43,6 +43,7 @@ def addCompany():
     categoriesEntities = []
 
     for name in categories:
+        name = name.strip()
         category = Category.query.filter_by(name=name).first()
         if not category:
             category = Category(name=name)
@@ -83,15 +84,15 @@ def editCompany(company_id):
 
     data = request.get_json()
 
-    company.name = data.get('name')
-    company.owner_name = data.get('ownerName')
-    company.phone_number = data.get("phoneNumber")
-    company.email = data.get("email")
-    company.website_url = data.get("website")
+    company.name = data.get('name').strip()
+    company.owner_name = data.get('ownerName').strip()
+    company.phone_number = data.get("phoneNumber").strip()
+    company.email = data.get("email").strip()
+    company.website_url = data.get("website").strip()
     
-    company.address.town = data.get("town")
-    company.address.street = data.get("street")
-    company.address.building_number = data.get("building_number")
+    company.address.town = data.get("town").strip()
+    company.address.street = data.get("street").strip()
+    company.address.building_number = data.get("building_number").strip()
     company.address.apartment_number = data.get("apartment_number")
 
     db.session.commit()

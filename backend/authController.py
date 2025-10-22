@@ -28,12 +28,12 @@ def register():
     if user:
         return jsonify({'error': 'Użytkownik z tym email już istnieje'}), 409
 
-    passwordHash = generate_password_hash(password)
+    passwordHash = generate_password_hash(password.strip())
     newUser = User(
-            email=email,
+            email=email.strip(),
             password=passwordHash,
-            firstname=firstname,
-            lastname=lastname
+            firstname=firstname.strip(),
+            lastname=lastname.strip()
     )
     db.session.add(newUser)
     db.session.commit()
@@ -50,8 +50,8 @@ def login():
     if not email or not password:
         return jsonify({'error': 'Brak nazwy użytkownika lub hasła'}), 400
 
-    user: User | None = User.query.filter_by(email=email).first()
-    if user == None or not check_password_hash(user.password, password):
+    user: User | None = User.query.filter_by(email=email.strip()).first()
+    if user == None or not check_password_hash(user.password, password.strip()):
         return jsonify({'error': 'Nieprawidłowe dane logowania'}), 401
 
     session_id = str(uuid.uuid4())

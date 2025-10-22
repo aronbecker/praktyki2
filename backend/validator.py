@@ -15,7 +15,7 @@ def reviewValidation(grade, comment) -> bool:
 
 def loginValidation(email, password) -> bool:
     """Sprawdza poprawność logowania."""
-    if not isinstance(email, str) or len(email) > 100 or not EMAIL_REGEX.match(email):
+    if not isinstance(email, str) or len(email) > 100 or not EMAIL_REGEX.match(email.strip()):
         return False
     
     if not isinstance(password, str) or len(password) < 4 or len(password) > 64:
