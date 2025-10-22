@@ -1,5 +1,6 @@
 from .extensions import db
 from datetime import datetime
+import time
 
 class Opinion(db.Model):
     __tablename__ = 'opinion'
@@ -8,5 +9,15 @@ class Opinion(db.Model):
     comment = db.Column(db.Text)
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.BigInteger, db.ForeignKey('user.id'))
+    company_id = db.Column(db.BigInteger, db.ForeignKey('company.id'))
 
-    companies = db.relationship('CompanyOpinion', backref='opinion', lazy=True)
+    user = db.relationship('User', backref="opinion", lazy=False)
+
+    def toStr(self):
+        return {
+            "id" : self.id,
+            "rating": self.rating,
+            "comment": self.comment,
+            "creation_date": int(time.mktime(self.creation_date.timetuple())) * 1000,
+            "user_name": self.user.firstname + " " + self.user.lastname
+        }

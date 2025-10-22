@@ -2,8 +2,7 @@ from flask import Blueprint
 from models import Company, User, Opinion
 from flask import request, jsonify, abort
 from authHandler import authenticate, AuthenticationResult
-from app import db
-
+from models.extensions import db
 
 page = Blueprint('page', __name__)
 
@@ -35,7 +34,7 @@ def get_company(company_id):
     company = Company.query.get(company_id)
 
     if company is None:
-        return jsonify({"error": "Company not found"}), 404
+        return jsonify({"error": "Nie znaleźiono firmy"}), 404
 
     return jsonify(company.to_dict())
 
@@ -61,7 +60,7 @@ def me():
     })
 
 
-@page.route('/company/<int:company_id>/opinion', methods=['POST'])
+@page.route('/company/<int:company_id>/opinions', methods=['POST'])
 def add_opinion(company_id):
     auth: AuthenticationResult = authenticate(request)
 
@@ -77,9 +76,9 @@ def add_opinion(company_id):
     if not company:
         return jsonify({"error": "Nie znaleziono firmy o podanym ID."}), 404
 
-    existing_opinion = Opinion.query.filter_by(user_id=user_id, company_id=company_id).first()
+    existing_opinion = Opinion.query.filter_by(user_id=user_id).filter(Opinion.company.has(id=company_id)).first()
     if existing_opinion:
-        return jsonify({"error": "Dodałeś już opinię o tej firmie."}), 400
+        return jsonify({"error": "Dodałeś już opinię o tej firmie."}), 409
 
     data = request.get_json()
     rating = data.get('rating')
@@ -92,8 +91,8 @@ def add_opinion(company_id):
         return jsonify({"error": "Komentarz nie może być pusty."}), 400
 
     new_opinion = Opinion(
-        user_id=user_id,
-        company_id=company_id,
+        user=user,
+        company=company,
         rating=rating,
         comment=comment.strip()
     )
@@ -107,32 +106,13 @@ def add_opinion(company_id):
 @page.route('/company/<int:company_id>/opinions', methods=['GET'])
 def get_company_opinions(company_id):
     company = Company.query.get(company_id)
-    if not company:
-        return jsonify({"error": "Nie znaleziono firmy o podanym ID."}), 404
 
-    page_param = request.args.get("page", default=0)
-
-    if not str(page_param).isdigit() or int(page_param) < 0:
-        page_param = 0
-    else:
-        page_param = int(page_param)
-
-    opinions_page = Opinion.query.filter_by(company_id=company_id).order_by(Opinion.id.desc()).paginate(
-        per_page=10, page=page_param + 1
-    )
-
-    opinions = opinions_page.items
+    if company is None:
+        return jsonify({"error": "Nie znaleźiono firmy"}), 404
 
     return jsonify({
-        "liczba_stron": opinions_page.pages,
-        "opinie": [
-            {
-                "id": o.id,
-                "uzytkownik_id": o.user_id,
-                "ocena": o.rating,
-                "komentarz": o.comment,
-                "data_dodania": o.created_at.isoformat() if o.created_at else None
-            } for o in opinions
+        "opinions": [
+            o.toStr() for o in company.opinions
         ]
     })
 

@@ -19,7 +19,7 @@ class Company(db.Model):
 
     address = db.relationship('Address', back_populates='company', uselist=False,  lazy=False)
     categories = db.relationship('Category', secondary='company_category', backref='company', lazy=True)
-    opinions = db.relationship('CompanyOpinion', backref='company', lazy=True)
+    opinions = db.relationship('Opinion', backref='company')
     
     def to_dict(self):
         return {

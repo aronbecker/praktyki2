@@ -11,4 +11,4 @@ class User(db.Model):
     creation_date = db.Column(db.DateTime, default=datetime.utcnow)
     role = db.Column(db.String(50), nullable=False, server_default='user', default='user')
 
-    opinions = db.relationship('Opinion', backref='user', lazy=True)
+    opinions = db.relationship('Opinion', back_populates="user", lazy=True)
