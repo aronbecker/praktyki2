@@ -1,17 +1,10 @@
 import { BACKEND_URL } from '$lib/backendUrl';
 import { fetcher } from '$lib/fetcher.js';
+import { setCookie } from '$lib/setCookie';
 import { error } from '@sveltejs/kit';
 
 export async function POST({ request, cookies, url }) {
-    const sessionId = cookies.get("session_id")
-
-    if (sessionId == undefined) {
-        return new Response()
-    }
-
-    const headers = new Headers();
-    headers.append('cookie', `session_id=${sessionId}`);
-
+    const headers = setCookie(cookies)
     const companyId = url.searchParams.get('companyId')
 
     if (companyId == null || isNaN(companyId) || Number(companyId) <= 0) {

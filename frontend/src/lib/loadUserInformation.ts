@@ -2,19 +2,11 @@ import type { Cookies } from "@sveltejs/kit";
 import { BACKEND_URL } from "./backendUrl";
 import { fetcher } from "./fetcher";
 import type { UserData } from "./stores/userStore";
+import { setCookie } from "./setCookie";
 
 export async function loadUserInformation(cookies: Cookies) {
     let userData: UserData | null = null;
-    const sessionId = cookies.get("session_id");
-
-    if (sessionId == undefined) {
-        return {
-            userData: null,
-        };
-    }
-
-    const headers = new Headers();
-    headers.append("cookie", `session_id=${sessionId}`);
+    const headers = setCookie(cookies)
 
     const res = await fetcher(`${BACKEND_URL}/me`, {
         method: "GET",

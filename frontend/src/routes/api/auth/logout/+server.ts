@@ -1,17 +1,10 @@
 import { BACKEND_URL } from '$lib/backendUrl';
 import { fetcher } from '$lib/fetcher.js';
+import { setCookie } from '$lib/setCookie';
 
 
 export async function POST({cookies}) {
-
-    const sessionId = cookies.get("session_id")
-
-    if (sessionId == undefined) {
-        return new Response()
-    }
-
-    const headers = new Headers();
-    headers.append('cookie', `session_id=${sessionId}`);
+    const headers = setCookie(cookies)
 
     const res = await fetcher(`${BACKEND_URL}/logout`, {
         method: 'POST',
