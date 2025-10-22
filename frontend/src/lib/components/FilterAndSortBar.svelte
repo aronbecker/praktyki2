@@ -31,7 +31,7 @@
             {/each}
         </Select.Content>
     </Select.Root>
-    <p class="mr-auto md:mr-0">Ocena</p>
+    <p class="mr-auto md:mr-0">Minimalna Ocena</p>
     <Select.Root type="single" bind:value={rating} onValueChange={change}>
         <Select.Trigger class="w-[180px]">{rating}</Select.Trigger>
         <Select.Content>

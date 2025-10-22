@@ -1,29 +1,30 @@
 <script lang="ts">
     import { Button } from "$lib/components/ui/button";
     import Input from "$lib/components/ui/input/input.svelte";
-    import { fetcher } from "$lib/fetcher";
     import { Validator } from "$lib/validator";
-    import { toast } from "svelte-sonner";
 
     const inputStyles = "h-12"
     const doubleInputWrapper = "row gap-2"
     const descriptinonStyles = "mr-auto ml-2"
     
     const validator = new Validator()
-    let isFormValid = false
+    let isFormValid = $state(false)
 
-    let name = ""
-    let owner = ""
-    let phone = ""
-    let email = ""
-    let website = ""
-    let town = ""
-    let street = ""
-    let building = ""
-    let apartment = ""
+    let {
+        name = "",
+        owner = "",
+        phone = "",
+        email = "",
+        website = "",
+        town = "",
+        street = "",
+        building = "",
+        apartment = "",
+        categories = [],
+        onSubmit
+    } = $props()
 
-    let categories: String[] = []
-    let newCategory = ""
+    let newCategory = $state("")
 
     validator.addField("name", () => name, (str) => str.length > 2)
     validator.addField("owner", () => owner, (str) => str.length > 1)
@@ -58,7 +59,7 @@
             }
         }
 
-    async function create() {
+    async function submit() {
         const payload = {
             name: name,
             ownerName: owner,
@@ -71,23 +72,12 @@
             apartment_number: apartment,
             categories: categories
         }
-        
-        const res = await fetcher("/api/admin/addCompany", {
-            method: "POST",
-            body: JSON.stringify(payload)
-        })
-
-        if (res.ok) {
-            toast.success("Dodano nową firmę")
-            return
-        } 
-        
-        toast.error(`Błąd podczas dodawania firmy - ${res.status}`)
+        await onSubmit(payload)
     }
 </script>
 
 <form oninput={validate} class="column m-auto gap-4 p-4 overflow-auto">
-    <h2 class="text-center font-bold text-3xl text-gray-300 mb-6">Formularz <br> dodawania nowej firmy</h2>
+    <h2 class="text-center font-bold text-3xl text-gray-300 mb-6">Dodawania/Edycja firmy</h2>
     <p class={descriptinonStyles}>Informacje podstawowe</p>
     <Input bind:value={name} class={inputStyles} placeholder="Nazwa" type="text" />
     <div class={doubleInputWrapper}>
@@ -132,5 +122,5 @@
         {/if}
     </div>
 
-    <Button onclick={create} disabled={!isFormValid} class="w-full h-12">Stwórz</Button>
+    <Button onclick={submit} disabled={!isFormValid} class="w-full h-12">Zatwierdź</Button>
 </form>

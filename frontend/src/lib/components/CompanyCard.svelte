@@ -6,6 +6,7 @@
     import Letter from "@lucide/svelte/icons/mail";
     import Globe from "@lucide/svelte/icons/globe";
     import Phone from "@lucide/svelte/icons/phone";
+    import { goto } from "$app/navigation";
 
     let company: CompanyDto = $$props.company;
 
@@ -13,10 +14,15 @@
 
     const color = "text-gray-300";
     const iconsStyles = "w-4 " + color;
-    const rowStyle = "row gap-2";
+    const rowStyle = "row gap-2 max-w-full overflow-hidden";
+
+    async function redirect() {
+        await goto(`/firma/${company.id}`)
+    }
+
 </script>
 
-<Card.Root class="bg-input/30 max-w-[360px] min-h-[230px] rounded-xl w-full hover:scale-[1.02] transition-transform">
+<Card.Root onclick={redirect} class="bg-input/30 max-w-[360px] min-h-[230px] rounded-xl w-full hover:scale-[1.02] transition-transform">
     <Card.Header>
         <div class={rowStyle}>
             <Card.Title class="text-lg">{company.name}</Card.Title>
@@ -46,7 +52,7 @@
         {#if company.website_url}
             <div class={rowStyle}>
                 <Globe class={iconsStyles} />
-                <a target="_blank" href="https://{company.website_url}" class="{color} text-primary">{company.website_url}</a>
+                <a target="_blank" href="https://{company.website_url}" class="{color} text-primary max-w-[130px]">{company.website_url}</a>
             </div>
         {/if}
     </Card.Content> 

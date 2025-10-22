@@ -12,7 +12,7 @@
     }
 </script>
  
-<Dialog.Root open={true} onOpenChange={(open) => setDialog(open ? 1 : 0)}>
+<Dialog.Root open={true} onOpenChange={(open) => setDialog({code: open ? 1 : 0})}>
  <Dialog.Content class="column backdrop-blur-lg py-14">
   <Dialog.Header>
    <Dialog.Title class="text-4xl font-bold text-center">{state == "login" ? "Witaj ponownie" : "Stwórz nowe konto"}</Dialog.Title>

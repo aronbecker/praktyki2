@@ -14,11 +14,12 @@
         companies = [...companies, ...newPage.companies]
     }
 </script>
-<div class="overflow-auto mx-auto mb-auto">
+
+<div style="height: calc(100vh - 120px);" class="overflow-auto mx-auto my-auto">
     <CompaniesTable {companies} />
     {#if data.page.pages - 1 != currentPage}
         <div class="w-max mx-auto">
             <Button onclick={loadMoreCompanies}>Załaduj więcej</Button>
-        </div>    
+        </div>
     {/if}
 </div>

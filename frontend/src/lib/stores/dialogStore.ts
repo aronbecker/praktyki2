@@ -1,13 +1,15 @@
 import { writable } from 'svelte/store';
 
-export const dialogStore = writable(0);
+export const dialogStore = writable<DialogType>({
+    code:0,
+    data: {}
+});
 
-type DialogType = 0 | 1;
+type DialogType = {
+    code: 0 | 1 | 2,
+    data?: object
+};
 
 export function setDialog(type: DialogType) {
     dialogStore.set(type);
-}
-
-export function closeDialog() {
-    dialogStore.set(0);
 }

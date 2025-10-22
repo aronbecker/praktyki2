@@ -15,7 +15,7 @@ export const columns: ColumnDef<CompanyDto>[] = [
   header: "Email",
  },
  {
-    accessorKey: "owner",
+    accessorKey: "owner_name",
     header: "Właściciel"
  },
  {

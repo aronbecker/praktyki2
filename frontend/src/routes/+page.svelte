@@ -8,19 +8,32 @@
     let { data } = $props();
     let companies = $state(data.page.companies)
     let currentPage = $state(0)
+    let rating = $state(0)
+    let page = $state(data.page)
 
     async function loadMoreCompanies() {
         currentPage += 1
-        const newPage = await getCompanies(currentPage)
-        companies = [...companies, ...newPage.companies]
+        page = await getCompanies(currentPage, rating)
+        companies = [...companies, ...page.companies]
     }
 
     function onSearch(text: String) {
         alert("Wyszukiwanie " + text)
     }
 
-    function onFilterSortChange(category: String, rating: String) {
-        alert("Filtrowanie/Sortowanie zmienione")
+    async function onFilterSortChange(category: String, rating_: String) {
+        rating = Number(rating_)
+        currentPage = -1
+        companies = []
+
+        if (!isNaN(rating_)) {
+            rating = Number(rating_)
+        } else {
+            rating = 0
+        }
+
+        
+        await loadMoreCompanies()
     }
 </script>
 
@@ -35,7 +48,7 @@
         <CompanyCard {company}/>
     {/each}
 </div>
-{#if data.page.pages - 1 != currentPage}
+{#if page.pages - 1 > currentPage}
     <div class="w-max mx-auto">
         <Button onclick={loadMoreCompanies}>Załaduj więcej</Button>
     </div>    

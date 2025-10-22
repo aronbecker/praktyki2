@@ -16,7 +16,7 @@
     {#if userData}
         <UserMenu firstname={userData.firstname} lastname={userData.lastname}/>
     {:else}
-        <Button onclick={() => setDialog(1)} class="bg-transparent cursor-pointer" variant="outline">
+        <Button onclick={() => setDialog({code: 1})} class="bg-transparent cursor-pointer" variant="outline">
             <SignIn />
             Zaloguj się
         </Button>
