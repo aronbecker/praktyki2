@@ -1,4 +1,5 @@
 from flask import Blueprint
+from utils import calculateCompanyRating
 from models import Company, User, Opinion
 from flask import request, jsonify, abort
 from authHandler import authenticate, AuthenticationResult
@@ -90,6 +91,8 @@ def add_opinion(company_id):
 
     db.session.add(new_opinion)
     db.session.commit()
+
+    calculateCompanyRating(company_id)
 
     return "", 200
 
