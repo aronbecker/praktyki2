@@ -1,5 +1,6 @@
 import { BACKEND_URL } from '$lib/backendUrl';
 import { fetcher } from '$lib/fetcher.js';
+import { error } from '@sveltejs/kit';
 
 export async function POST({ request, cookies, url }) {
     const sessionId = cookies.get("session_id")
@@ -11,10 +12,14 @@ export async function POST({ request, cookies, url }) {
     const headers = new Headers();
     headers.append('cookie', `session_id=${sessionId}`);
 
-    const companyId = Number(url.searchParams.get('companyId') ?? '1');
+    const companyId = url.searchParams.get('companyId')
+
+    if (companyId == null || isNaN(companyId) || Number(companyId) <= 0) {
+        error(400)
+    }
 
     const data = await request.json()
-    const res = await fetcher(`${BACKEND_URL}/company/${companyId}/comments`, {
+    const res = await fetcher(`${BACKEND_URL}/company/${Number(companyId)}/comments`, {
         method: 'POST',
         body: JSON.stringify(data),
         credentials: true,
