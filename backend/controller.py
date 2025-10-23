@@ -1,6 +1,7 @@
 from flask import Blueprint
+from models.category import Category
 from utils import calculateCompanyRating
-from models import Company, User, Opinion
+from models import Company, Opinion
 from flask import request, jsonify, abort
 from authHandler import authenticate, AuthenticationResult
 from models.extensions import db
@@ -110,3 +111,10 @@ def get_company_comments(company_id):
         ]
     })
 
+@page.route('/categories')
+def getAllCategories():
+    categories = [c.name for c in Category.query.all()]
+
+    return jsonify({
+        "categories" : categories
+    }), 200
