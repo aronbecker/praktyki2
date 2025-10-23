@@ -1,7 +1,7 @@
 export type OpinionDto = {
     id: number;
     rating: number;
-    text?: string;
-    userName: string;
-    createdAt: string;
+    comment?: string;
+    user_name: string;
+    creation_date: string;
 }

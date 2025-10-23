@@ -15,6 +15,7 @@
     import { toast } from "svelte-sonner";
     import { userStore } from "$lib/stores/userStore.js";
     import { get } from "svelte/store";
+    import type { OpinionDto } from "$lib/dtos/opinionDto.js";
 
     let { data } = $props()
     const company = (data.company)
@@ -24,7 +25,7 @@
 
     let starsInput = $state(0)
     let comment = $state("")
-    let comments = $state(data.comments.comments)
+    let comments: OpinionDto[] = $state(data.comments.comments)
     
     const hasWebsite = company.website_url && company.website_url != ""
     const hasEmail = company.email && company.email != ""
@@ -48,10 +49,11 @@
 
         if (response.ok) {
             toast.success("Dodano opinie")
-            const newComment = {
+            const newComment: OpinionDto = {
+                id: -1,
                 comment: comment,
                 rating: starsInput,
-                creation_date: Date.now(),
+                creation_date: String(Date.now()),
                 user_name: me?.firstname + " " + me?.lastname
             }
             comments = [newComment, ...comments]
