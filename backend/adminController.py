@@ -83,6 +83,19 @@ def editCompany(company_id):
     company.address.building_number = data.get("building_number").strip()
     company.address.apartment_number = data.get("apartment_number")
 
+    categories = data.get("categories")
+
+    categoriesEntities = []
+
+    for name in categories:
+        name = name.strip()
+        category = Category.query.filter_by(name=name).first()
+        if not category:
+            category = Category(name=name)
+        categoriesEntities.append(category)
+
+    company.categories = categoriesEntities
+
     db.session.commit()
 
     return "", 200
