@@ -1,10 +1,13 @@
 from flask import Blueprint
+from dtos.addOpinionDto import AddOpinionDto
+from utils.requestToDtoConverter import convert
 from models.category import Category
 from utils import calculateCompanyRating
 from models import Company, Opinion
 from flask import request, jsonify, abort
 from authHandler import authenticate, AuthenticationResult
 from models.extensions import db
+from datetime import datetime, timedelta, timezone
 
 page = Blueprint('page', __name__)
 
@@ -74,21 +77,23 @@ def add_opinion(company_id):
         return jsonify({"error": "Dodałeś już opinię o tej firmie."}), 409
 
     data = request.get_json()
-    rating = data.get('rating')
-    comment = data.get('comment')
+    reqData = convert(data, AddOpinionDto)
 
-    if not rating or not isinstance(rating, (int, float)) or rating < 1 or rating > 5:
+    if not reqData.rating or not isinstance(reqData.rating, (int, float)) or reqData.rating < 1 or reqData.rating > 5:
         return jsonify({"error": "Ocena musi być liczbą z zakresu od 1 do 5."}), 400
 
-    if not comment:
-        comment = ""
+    if not reqData.comment:
+        reqData.comment = ""
 
     new_opinion = Opinion(
         user=user,
         company=company,
-        rating=rating,
-        comment=comment.strip()
+        rating=reqData.rating,
+        comment=reqData.comment.strip()
     )
+    
+    utc_plus_2 = timezone(timedelta(hours=2))
+    new_opinion.creation_date = datetime.now(utc_plus_2)
 
     db.session.add(new_opinion)
     db.session.commit()

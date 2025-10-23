@@ -1,10 +1,14 @@
 class CompanyDto:
-    def __init__(self, id: int, name: str, phoneNumber: str, email: str, website: str, ownerName: str, address: any, rating: int):
-        self.id = id
-        self.name = name
-        self.phoneNumber = phoneNumber
-        self.email = email
-        self.website = website
-        self.ownerName = ownerName
-        self.address = address
-        self.rating = rating
+
+    def __init__(self):
+        self.id = None
+        self.name = None
+        self.phoneNumber = None
+        self.email = None
+        self.website = None
+        self.ownerName = None
+        self.address = None
+        self.rating = None
+        self.categories = None
+        self.nip = None
+        self.regon = None

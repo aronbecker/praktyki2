@@ -1,4 +1,6 @@
 from flask import Blueprint
+from dtos.companyDto import CompanyDto
+from utils.requestToDtoConverter import convert
 from models import Company, User, Address, Category, db
 from flask import request, abort
 from authHandler import authenticate, isAdmin
@@ -13,18 +15,12 @@ def addCompany():
     
     data = request.get_json()
 
-    name = data.get('name').strip()
-    ownerName = data.get('ownerName').strip()
-    phoneNumber = data.get("phoneNumber").strip()
-    email = data.get("email").strip()
-    website = data.get("website").strip()
-    categories = data.get("categories")
+    company_ = convert(data, CompanyDto)
+
     town = data.get("town").strip()
     street = data.get("street").strip()
     building_number = data.get("building_number").strip()
     apartment_number = data.get("apartment_number")
-    nip = data.get("nip")
-    regon = data.get("regon")
 
     addres = Address(
         town,
@@ -33,25 +29,24 @@ def addCompany():
         apartment_number
     )
 
+    company = Company(
+        company_.name,
+        company_.phoneNumber,
+        company_.email,
+        company_.ownerName,
+        company_.website,
+        company_.nip,
+        company_.regon
+    )
+
     categoriesEntities = []
 
-    for name in categories:
+    for name in company_.categories:
         name = name.strip()
         category = Category.query.filter_by(name=name).first()
         if not category:
             category = Category(name=name)
         categoriesEntities.append(category)
-
-    company = Company(
-        name,
-        phoneNumber,
-        email,
-        ownerName,
-        website,
-        nip,
-        regon
-    )
-
 
     company.categories = categoriesEntities
     company.address = addres

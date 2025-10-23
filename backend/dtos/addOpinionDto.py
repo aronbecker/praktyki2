@@ -1,4 +1,4 @@
 class AddOpinionDto:
-    def __init__(self, rating: int, comment: str):
-        self.rating = rating
-        self.comment = comment
+    def __init__(self):
+        self.rating = None
+        self.comment = None

@@ -2,6 +2,9 @@ from flask import Blueprint, request, jsonify, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 from authHandler import authenticate
+from dtos.registrationDto import RegistrationDto
+from dtos.loginDto import LoginDto
+from utils.requestToDtoConverter import convert
 from models import User, Session, db
 from validator import registerValidation
 import datetime
@@ -12,28 +15,25 @@ auth = Blueprint('auth', __name__)
 @auth.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
-    firstname = data.get('firstname')
-    lastname = data.get('lastname')
+    reqData = convert(data, RegistrationDto)
 
-    if not email or not password or not firstname or not lastname:
+    if not reqData.email or not reqData.password or not reqData.firstname or not reqData.lastname:
         return jsonify({'error': 'Brak wymaganych danych rejestracji (email, password, firstname, lastname)'}), 400
 
-    validData = registerValidation(email, password, firstname, lastname)
+    validData = registerValidation(reqData.email, reqData.password, reqData.firstname, reqData.lastname)
     if not validData:
         return jsonify({'error': 'Nieprawidłowe dane rejestracji'}), 400
 
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(email=reqData.email).first()
     if user:
         return jsonify({'error': 'Użytkownik z tym email już istnieje'}), 409
 
-    passwordHash = generate_password_hash(password.strip())
+    passwordHash = generate_password_hash(reqData.password.strip())
     newUser = User(
-            email=email.strip(),
+            email=reqData.email.strip(),
             password=passwordHash,
-            firstname=firstname.strip(),
-            lastname=lastname.strip()
+            firstname=reqData.firstname.strip(),
+            lastname=reqData.lastname.strip()
     )
     db.session.add(newUser)
     db.session.commit()
@@ -44,14 +44,13 @@ def register():
 @auth.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    email = data.get('email')
-    password = data.get('password')
+    loginData = convert(data, LoginDto)
 
-    if not email or not password:
-        return jsonify({'error': 'Brak nazwy użytkownika lub hasła'}), 400
+    if not loginData.email or not loginData.password:
+        return jsonify({'error': 'Brak emaila lub hasła'}), 400
 
-    user: User | None = User.query.filter_by(email=email.strip()).first()
-    if user == None or not check_password_hash(user.password, password.strip()):
+    user: User | None = User.query.filter_by(email=loginData.email.strip()).first()
+    if user == None or not check_password_hash(user.password, loginData.password.strip()):
         return jsonify({'error': 'Nieprawidłowe dane logowania'}), 401
 
     session_id = str(uuid.uuid4())
