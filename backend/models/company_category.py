@@ -1,6 +1,8 @@
 from .extensions import db
 
-class CompanyCategory(db.Model):
-    __tablename__ = 'company_category'
-    company_id = db.Column(db.BigInteger, db.ForeignKey('company.id'), primary_key=True)
-    category_id = db.Column(db.BigInteger, db.ForeignKey('category.id'), primary_key=True)
+companyCategory = db.Table('company_category', 
+    db.Column('id', db.BigInteger, primary_key=True),
+    db.Column('company_id', db.BigInteger, db.ForeignKey('company.id')),
+    db.Column('category_id', db.BigInteger, db.ForeignKey('category.id'))
+)
+    

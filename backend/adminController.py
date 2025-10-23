@@ -23,6 +23,8 @@ def addCompany():
     street = data.get("street").strip()
     building_number = data.get("building_number").strip()
     apartment_number = data.get("apartment_number")
+    nip = data.get("nip")
+    regon = data.get("regon")
 
     addres = Address(
         town,
@@ -46,6 +48,8 @@ def addCompany():
         email,
         ownerName,
         website,
+        nip,
+        regon
     )
 
 
@@ -71,7 +75,9 @@ def editCompany(company_id):
     company.phone_number = data.get("phoneNumber").strip()
     company.email = data.get("email").strip()
     company.website_url = data.get("website").strip()
-    
+    company.nip = data.get("nip").strip()
+    company.regon = data.get("regon").strip()
+
     company.address.town = data.get("town").strip()
     company.address.street = data.get("street").strip()
     company.address.building_number = data.get("building_number").strip()

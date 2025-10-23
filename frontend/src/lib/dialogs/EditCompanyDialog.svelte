@@ -30,15 +30,17 @@
 <Dialog.Root open={true} onOpenChange={(open) => setDialog({code: open ? 1 : 0})}>
     <Dialog.Content class="backdrop-blur-lg">
         <CompanyForm 
-            name={companyData[1]}
-            email={companyData[2]}
-            owner={companyData[3]}
-            phone={companyData[4]}
-            website={companyData[5]}
-            town={companyData[6]}
-            street={companyData[7]}
-            building={companyData[8]}
-            apartment={companyData[9]}
+            nip={companyData[1]}
+            regon={companyData[2]}
+            name={companyData[3]}
+            email={companyData[4]}
+            owner={companyData[5]}
+            phone={companyData[6]}
+            website={companyData[7]}
+            town={companyData[8]}
+            street={companyData[9]}
+            building={companyData[10]}
+            apartment={companyData[11]}
             onSubmit={edit}
         />
     </Dialog.Content>

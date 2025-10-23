@@ -9,5 +9,7 @@ export type CompanyDto = {
     owner_name: string;
     rating: number;
     ratingCount: number;
+    nip: string;
+    regon: string;
     address: AddressDto;
 }

@@ -11,7 +11,7 @@ class Opinion(db.Model):
     user_id = db.Column(db.BigInteger, db.ForeignKey('user.id'))
     company_id = db.Column(db.BigInteger, db.ForeignKey('company.id'))
 
-    user = db.relationship('User', backref="opinion", lazy=False)
+    user = db.relationship('User', lazy=False)
 
     def toStr(self):
         return {

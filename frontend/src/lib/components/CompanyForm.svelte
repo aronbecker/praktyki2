@@ -21,6 +21,8 @@
         building = "",
         apartment = "",
         categories = [],
+        nip = "",
+        regon = "",
         onSubmit
     } = $props()
 
@@ -33,7 +35,8 @@
     validator.addField("town", () => town, (str) => str.length > 3)
     validator.addField("street", () => street, (str) => str.length > 2)
     validator.addField("building", () => building, (str) => str.length > 0)
-
+    validator.addField("nip", () => nip, (str) => str.length == 10)
+    validator.addField("regon", () => regon, (str) => 7 <= str.length && str.length < 10)
 
     function validate() {
         isFormValid = validator.isValid()
@@ -70,7 +73,9 @@
             street: street,
             building_number: building,
             apartment_number: apartment,
-            categories: categories
+            categories: categories,
+            nip: nip,
+            regon: regon
         }
         await onSubmit(payload)
     }
@@ -80,6 +85,10 @@
     <h2 class="text-center font-bold text-3xl text-gray-300 mb-6">Dodawania/Edycja firmy</h2>
     <p class={descriptinonStyles}>Informacje podstawowe</p>
     <Input bind:value={name} class={inputStyles} placeholder="Nazwa" type="text" />
+    <div class={doubleInputWrapper}>
+        <Input bind:value={nip} class={inputStyles} placeholder="Nip" type="text" maxlength={10}/>
+        <Input bind:value={regon} class={inputStyles} placeholder="Regon" type="text" maxlength={9} />
+    </div>
     <div class={doubleInputWrapper}>
         <Input bind:value={owner} class={inputStyles} placeholder="Imie i nazwisko właściciela" type="text" />
         <Input bind:value={phone} class={inputStyles} placeholder="Numer telefonu (opcjonalne)" type="tel" />
