@@ -12,4 +12,5 @@ export type CompanyDto = {
     nip: string;
     regon: string;
     address: AddressDto;
+    categories: string[]
 }

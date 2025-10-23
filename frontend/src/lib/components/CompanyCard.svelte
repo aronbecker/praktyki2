@@ -7,6 +7,7 @@
     import Globe from "@lucide/svelte/icons/globe";
     import Phone from "@lucide/svelte/icons/phone";
     import { goto } from "$app/navigation";
+    import Badge from "./ui/badge/badge.svelte";
 
     let company: CompanyDto = $$props.company;
 
@@ -24,12 +25,19 @@
 
 <Card.Root onclick={redirect} class="bg-input/30 max-w-[360px] min-h-[230px] rounded-xl w-full hover:scale-[1.02] transition-transform">
     <Card.Header>
-        <div class={rowStyle}>
+        <div class="{rowStyle} mb-2">
             <Card.Title class="text-lg">{company.name}</Card.Title>
             {#if company.rating}
                 <Star class="w-4 ml-auto" color="gold" fill="gold"/>
                 <p class={color}>{company.rating}.0 <span class="text-gray-400 text-sm">({company.ratingCount})</span></p>
             {/if}
+        </div>
+        <div class="row flex-wrap gap-2 gap-y-4">
+            {#each company.categories as c}
+                <Badge class="text-white bg-blue-600">
+                    {c}
+                </Badge>
+            {/each}
         </div>
     </Card.Header>
     <Card.Content class="space-y-2">
