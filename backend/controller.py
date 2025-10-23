@@ -80,8 +80,8 @@ def add_opinion(company_id):
     if not rating or not isinstance(rating, (int, float)) or rating < 1 or rating > 5:
         return jsonify({"error": "Ocena musi być liczbą z zakresu od 1 do 5."}), 400
 
-    if not comment or len(comment.strip()) == 0:
-        return jsonify({"error": "Komentarz nie może być pusty."}), 400
+    if not comment:
+        comment = ""
 
     new_opinion = Opinion(
         user=user,
@@ -107,7 +107,7 @@ def get_company_comments(company_id):
 
     return jsonify({
         "comments": [
-            o.toStr() for o in company.opinions
+            o.toStr() for o in company.opinions if o.comment != ""
         ]
     })
 

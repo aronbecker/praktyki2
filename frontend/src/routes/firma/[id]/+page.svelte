@@ -53,7 +53,8 @@
                 id: -1,
                 comment: comment,
                 rating: starsInput,
-                creation_date: String(Date.now()),
+                // @ts-ignore
+                creation_date: Date.now(),
                 user_name: me?.firstname + " " + me?.lastname
             }
             comments = [newComment, ...comments]
