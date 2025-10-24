@@ -34,7 +34,7 @@
         </div>
         <div class="row flex-wrap gap-2 gap-y-4">
             {#each company.categories as c}
-                <Badge class="text-white bg-blue-600">
+                <Badge class="text-white bg-blue-500">
                     {c}
                 </Badge>
             {/each}

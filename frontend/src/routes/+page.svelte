@@ -45,9 +45,11 @@
 </div>
 <div class="row justify-center max-w-[1200px] w-[90%] mx-auto my-10 gap-8 flex-wrap">
     <FilterAndSortBar onChange={onFilterSortChange} />
-    {#each companies as company}
-        <CompanyCard {company}/>
-    {/each}
+    <div class="flex justify-center w-full mx-auto gap-8 flex-wrap">
+        {#each companies as company}
+            <CompanyCard {company}/>
+        {/each}
+    </div>
 </div>
 {#if page.pages - 1 > currentPage}
     <div class="w-max mx-auto">
