@@ -25,6 +25,9 @@ class Company(db.Model):
         self.rating = 0
         self.ratingCount = 0
 
+    def __init__(self):
+        pass
+
     address = db.relationship('Address', back_populates='company', uselist=False)
     categories = db.relationship('Category', secondary=companyCategory)
     opinions = db.relationship('Opinion', backref='company')
