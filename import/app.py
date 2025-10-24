@@ -1,16 +1,13 @@
-import sys
 from dotenv import load_dotenv
 from backend.models import *
 from backend.models.extensions import db
-from flask import Flask, request
+from flask import Flask
 import pymysql
 from flask_migrate import Migrate
 import os
-from .import_companies import import_aktywne_firmy
-from .import_categories import import_kategori
+from .import_companies import import_glowny
 
 load_dotenv()
-
 pymysql.install_as_MySQLdb()
 
 app = Flask(__name__)
@@ -27,8 +24,7 @@ migrate = Migrate(app, db)
 @app.route("/import")
 def impCompanies():
     os.chdir("import")
-    data = import_aktywne_firmy()
-    import_kategori(data)
+    import_glowny()
     return "", 200
 
 

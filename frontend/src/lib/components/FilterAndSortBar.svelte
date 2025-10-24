@@ -25,7 +25,7 @@
     async function loadCategories() {
         if (categoriesLoaded) return
         const loadedCategories = await getCategories()
-        categories = [...categories, loadedCategories.categories]
+        categories = [...categories, ...loadedCategories.categories]
         categoriesLoaded = true
     }
 

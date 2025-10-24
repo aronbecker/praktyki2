@@ -2,8 +2,10 @@ import pandas as pd
 from backend.models.address import Address
 from backend.models.company import Company
 from backend.models.extensions import db
+from .import_keywords import import_slow_kluczowych
+from .import_categories import getCattegories
 
-def import_aktywne_firmy():
+def import_glowny():
     """
     Wczytuje dane firm z pliku Excel i filtruje tylko te, które mają StatusDzialalnosci = 'aktywny'.
     Zwraca DataFrame z wybranymi kolumnami, łącząc Imię i Nazwisko w jedno pole 'NazwaWłaściciela'.
@@ -46,7 +48,7 @@ def import_aktywne_firmy():
             company.nip = getVal("Nip")
             company.regon = getVal("Regon")
             company.name = getVal("NazwaPodmiotu")
-            company.owner_name = f"{getVal("Imie")} {getVal("Nazwisko")}"
+            company.owner_name = f"{getVal('Imie')} {getVal('Nazwisko')}"
             company.rating = 0
             company.ratingCount = 0
 
@@ -58,12 +60,13 @@ def import_aktywne_firmy():
             )
 
             company.address = address
+            company.categories = getCattegories(row)
 
             db.session.add(company)
             db.session.commit()
-
-        return wynik
-
+        
+        import_slow_kluczowych()
+        
     except FileNotFoundError:
         print(f"❌ Nie znaleziono pliku: {'dane_firmy.xlsx'}")
     except Exception as e:

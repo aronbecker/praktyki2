@@ -7,15 +7,15 @@ def getCategoryFromPkd(pkdCode: str) -> str:
     Zwraca kategorię (string) odpowiednią do kodu PKD.
     """
     try:
-        code = int(str(pkdCode).split('.')[0]) 
+        code = int(pkdCode[0]+pkdCode[1]) 
     except ValueError:
-        return "NIEZNANA KATEGORIA"
+        return ""
 
     for codes, category in PKD_TO_CATEGORY.items():
         if code in codes:
             return category
 
-    return "NIEZNANA KATEGORIA"
+    return ""
 
 
 def getKeywordFromCategory(category: str) -> list:

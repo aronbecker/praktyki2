@@ -1,14 +1,30 @@
+from backend.models.category import Category
 from backend.models.extensions import db
-import pandas as pd
 from .utils import getCategoryFromPkd
 
-def import_kategori(data):
-  for i, row in data.iterrows():
-      codes = []
+def getCattegories(row):
+    codes = []
+    categories = set()
 
-      codes.append(row["GlownyKodPkd"])
-      for p in row["PozostaleKodyPkd"].split("$##$"):
-        codes.append(p)
+    codes.append(str(row["GlownyKodPkd"]))
+    for p in str(row["PozostaleKodyPkd"]).split("$##$"):
+      codes.append(p)
 
-      getCategoryFromPkdromPkd()
+    for c in codes:
+      cat = getCategoryFromPkd(c)
+      if (cat != ""):
+        categories.add(cat)
+
+
+    categoriesEntities = []
+
+    for name in categories:
+        name = name.strip()
+        category = Category.query.filter_by(name=name).first()
+        if not category:
+            category = Category(name=name)
+        categoriesEntities.append(category)
+
+    return categoriesEntities
+         
       

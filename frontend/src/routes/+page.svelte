@@ -8,12 +8,11 @@
     let { data } = $props();
     let companies = $state(data.page.companies)
     let currentPage = $state(0)
-    let rating = $state(0)
     let page = $state(data.page)
 
-    async function loadMoreCompanies() {
+    async function loadMoreCompanies(rating: number, category: string | null) {
         currentPage += 1
-        page = await getCompanies(currentPage, rating)
+        page = await getCompanies(currentPage, rating, category)
         companies = [...companies, ...page.companies]
     }
 
@@ -21,19 +20,21 @@
         alert("Wyszukiwanie " + text)
     }
 
-    async function onFilterSortChange(category: String, rating_: String) {
-        rating = Number(rating_)
+    async function onFilterSortChange(category_: string, rating_: string) {
+        let rating = 0
+        let category: string | null = null
         currentPage = -1
         companies = []
 
         if (!isNaN(rating_)) {
             rating = Number(rating_)
-        } else {
-            rating = 0
+        } 
+        
+        if (category_ != "Wszystkie kategorie") {
+            category = category_
         }
 
-        
-        await loadMoreCompanies()
+        await loadMoreCompanies(rating, category)
     }
 </script>
 
