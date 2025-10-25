@@ -24,9 +24,11 @@ def home():
     if rating is not None and 1 <= rating <= 5:
         query = query.filter(Company.rating >= rating)
 
-    # category = request.args.get("category", type=str)
-    # if (category):
-    #     query = query.filter(category in for c in Company.categories)
+    category = request.args.get("category", type=str)
+    if (category):
+        query = query.filter(
+            Company.categories.any(Category.name.in_([category]))
+        )
 
     page_obj = query.paginate(per_page=20, page=page + 1)
     companies = page_obj.items

@@ -34,7 +34,7 @@
 <div class="w-full min-h-18 bg-input/30 p-4 gap-6 border flex-wrap rounded-lg row mx-2 md:mx-7">
     <p class="mr-auto md:mr-0">Kategoria</p>
     <Select.Root type="single" bind:value={category} onValueChange={change}>
-        <Select.Trigger onclick={loadCategories} class="w-[180px]">{category}</Select.Trigger>
+        <Select.Trigger onclick={loadCategories} class="w-[180px] overflow-hidden">{category}</Select.Trigger>
         <Select.Content>
             {#each categories as cat}
                 <Select.Item value={cat}>{cat}</Select.Item>
