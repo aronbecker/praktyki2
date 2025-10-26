@@ -1,5 +1,4 @@
 from backend.models.category import Category
-from backend.models.extensions import db
 from .utils import getCategoryFromPkd
 
 def getCattegories(row):

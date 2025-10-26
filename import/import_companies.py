@@ -5,13 +5,13 @@ from backend.models.extensions import db
 from .import_keywords import import_slow_kluczowych
 from .import_categories import getCattegories
 
-def import_glowny():
+def import_glowny(file):
     """
     Wczytuje dane firm z pliku Excel i filtruje tylko te, które mają StatusDzialalnosci = 'aktywny'.
     Zwraca DataFrame z wybranymi kolumnami, łącząc Imię i Nazwisko w jedno pole 'NazwaWłaściciela'.
     """
     try:
-        df = pd.read_excel('dane_firmy.xlsx')
+        df = pd.read_excel(file)
 
         if 'StatusDzialalnosci' not in df.columns:
             raise KeyError("Brak kolumny 'StatusDzialalnosci' w pliku Excel.")
@@ -29,23 +29,25 @@ def import_glowny():
             raise KeyError(f"Brakujące kolumny w pliku: {', '.join(brakujace)}")
 
 
-        wynik = aktywne[[
-            'NazwaPodmiotu', 'Telefon', 'Email', 'Imie', 'Nazwisko',
-            'AdresWWW', 'Nip', 'Regon', 'Miejscowosc', 'Ulica',
-            'NrBudynku', 'NrLokalu', 'GlownyKodPkd', 'PozostaleKodyPkd'
-        ]]
+        wynik = aktywne[kolumny]
 
-        for i, row in wynik.iterrows():
+        for _, row in wynik.iterrows():
             def getVal(propertyName) -> str:
                 return row[propertyName] if str(row[propertyName]) != "nan" else ""
 
-            company = Company()
+            nip = getVal("Nip")
+            existed = True
+            company = Company.query.filter_by(nip=nip).first()
+            if company == None:
+                company = Company()
+                existed = False
+
             company.email = getVal("Email")
             company.phone_number = getVal("Telefon")
             company.website_url= getVal("AdresWWW")
 
 
-            company.nip = getVal("Nip")
+            company.nip = nip
             company.regon = getVal("Regon")
             company.name = getVal("NazwaPodmiotu")
             company.owner_name = f"{getVal('Imie')} {getVal('Nazwisko')}"
@@ -62,13 +64,17 @@ def import_glowny():
             company.address = address
             company.categories = getCattegories(row)
 
-            db.session.add(company)
+            if not existed:
+                db.session.add(company)
+
             db.session.commit()
         
         import_slow_kluczowych()
+    
+        print("Dane zostały za importowane ✅")
         
     except FileNotFoundError:
-        print(f"❌ Nie znaleziono pliku: {'dane_firmy.xlsx'}")
+        print(f"❌ Nie znaleziono pliku: {file}")
     except Exception as e:
         print(e.with_traceback())
         print(f"⚠️ Wystąpił błąd: {e}")
