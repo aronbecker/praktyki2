@@ -9,7 +9,9 @@
     import { goto } from "$app/navigation";
     import Badge from "./ui/badge/badge.svelte";
 
-    let company: CompanyDto = $$props.company;
+    let props = $props()
+    let company: CompanyDto = props.company;
+    let showAllCategories = $state(false)
 
     const address = company.address;
 
@@ -17,8 +19,15 @@
     const iconsStyles = "w-4 " + color;
     const rowStyle = "row gap-2 max-w-full overflow-hidden";
 
-    async function redirect() {
+    async function redirect(e: Event) {
+        if (e.target !== e.currentTarget) {
+            return
+        }
         await goto(`/firma/${company.id}`)
+    }
+
+    function showAllCategories_() {
+        showAllCategories = true
     }
 
 </script>
@@ -33,11 +42,18 @@
             {/if}
         </div>
         <div class="row flex-wrap gap-2 gap-y-4">
-            {#each company.categories as c}
-                <Badge class="text-white bg-blue-500">
-                    {c}
-                </Badge>
+            {#each company.categories as c, i}
+                {#if i < 4 || showAllCategories}
+                    <Badge class="text-white bg-blue-500">
+                        {c}
+                    </Badge>
+                {/if}
             {/each}
+            {#if company.categories.length > 4 && !showAllCategories}
+                <Badge variant="secondary">
+                    <button class="cursor-pointer" onclick={showAllCategories_}>Więcej...</button>
+                </Badge>
+            {/if}
         </div>
     </Card.Header>
     <Card.Content class="space-y-2">
