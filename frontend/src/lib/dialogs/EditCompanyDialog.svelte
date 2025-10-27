@@ -41,6 +41,7 @@
             street={companyData[9]}
             building={companyData[10]}
             apartment={companyData[11]}
+            categories={companyData[12]}
             onSubmit={edit}
         />
     </Dialog.Content>
