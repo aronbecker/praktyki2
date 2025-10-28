@@ -1,10 +1,10 @@
 from flask import Blueprint, jsonify
-from models.keyword import Keyword
-from dtos.companyDto import CompanyDto
-from utils.requestToDtoConverter import convert
-from models import Company, User, Address, Category, db
+from .models.keyword import Keyword
+from .dtos.companyDto import CompanyDto
+from .utils.requestToDtoConverter import convert
+from .models import Company, User, Address, Category, db
 from flask import request, abort
-from authHandler import authenticate, isAdmin
+from .authHandler import authenticate, isAdmin
 
 admin = Blueprint('admin', __name__)
 

@@ -1,5 +1,5 @@
-from models import Opinion, Company
-from models import db
+from backend.models import Opinion, Company
+from backend.models import db
 
 def calculateCompanyRating(company_id: int):
     company: Company = Company.query.filter_by(id=company_id).first()

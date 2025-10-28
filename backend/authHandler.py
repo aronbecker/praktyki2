@@ -1,5 +1,5 @@
-from models.user import User
-from models import Session
+from .models.user import User
+from .models import Session
 
 class AuthenticationResult:
     isAuthenticated: bool

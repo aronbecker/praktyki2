@@ -1,13 +1,13 @@
 import os
 from dotenv import load_dotenv
-from models import *
-from models.extensions import db
+from .models import *
+from .models.extensions import db
 from flask import Flask
 import pymysql
 from flask_migrate import Migrate
-from controller import page 
-from authController import auth
-from adminController import admin
+from .controller import page 
+from .authController import auth
+from .adminController import admin
 from flask_cors import CORS
 
 load_dotenv()

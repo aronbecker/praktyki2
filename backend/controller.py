@@ -1,17 +1,17 @@
 from flask import Blueprint
-from dtos.addOpinionDto import AddOpinionDto
-from utils.requestToDtoConverter import convert
-from models.category import Category
-from utils import calculateCompanyRating
-from models import Company, Opinion
+from .dtos.addOpinionDto import AddOpinionDto
+from .utils.requestToDtoConverter import convert
+from .models.category import Category
+from .utils import calculateCompanyRating
+from .models import Company, Opinion
 from flask import request, jsonify, abort
-from authHandler import authenticate, AuthenticationResult
-from models.extensions import db
+from .authHandler import authenticate, AuthenticationResult
+from .models.extensions import db
 from datetime import datetime, timedelta, timezone
 from sqlalchemy import or_
-from models.keyword import Keyword
-from models.company import Company
-from models.category import Category
+from .models.keyword import Keyword
+from .models.company import Company
+from .models.category import Category
 
 
 page = Blueprint('page', __name__)

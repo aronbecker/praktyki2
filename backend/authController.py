@@ -1,12 +1,12 @@
 from flask import Blueprint, request, jsonify, make_response
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
-from authHandler import authenticate
-from dtos.registrationDto import RegistrationDto
-from dtos.loginDto import LoginDto
-from utils.requestToDtoConverter import convert
-from models import User, Session, db
-from validator import registerValidation
+from .authHandler import authenticate
+from .dtos.registrationDto import RegistrationDto
+from .dtos.loginDto import LoginDto
+from .utils.requestToDtoConverter import convert
+from .models import User, Session, db
+from .validator import registerValidation
 import datetime
 
 auth = Blueprint('auth', __name__)

@@ -13,6 +13,7 @@ class Company(db.Model):
     ratingCount = db.Column(db.Integer)
     nip = db.Column(db.String(10))
     regon = db.Column(db.String(14))
+    description = db.Column(db.String(64000), server_default="", default="")
 
     def __init__(self, name, phone_number, email, owner_name, website_url, nip, regon):
         self.name = name
