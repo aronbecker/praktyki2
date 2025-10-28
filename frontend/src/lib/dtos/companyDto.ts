@@ -11,6 +11,7 @@ export type CompanyDto = {
     ratingCount: number;
     nip: string;
     regon: string;
+    description: string;
     address: AddressDto;
     categories: string[]
 }

@@ -6,6 +6,7 @@
     import Email from "@lucide/svelte/icons/mail";
     import Globe from "@lucide/svelte/icons/globe";
     import User from "@lucide/svelte/icons/user";
+    import Info from "@lucide/svelte/icons/book-open-text";
     import MapPin from "@lucide/svelte/icons/map-pin";
     import MessageCircle from "@lucide/svelte/icons/message-circle"
     import Textarea from "$lib/components/ui/textarea/textarea.svelte";
@@ -115,6 +116,15 @@
             <p class="ml-2 text-gray-300">{address.town}, {address.street} {address.buildingNumber}/{address.apartmentNumber}</p>
         </Card>
     </div>
+    {#if company.description != ""}
+    <Card class="w-full {bgColor} p-6">
+        <div class="row gap-4 mb-0">
+            <Info class="text-primary" />
+            <p class="text-xl font-bold">Opis</p>
+        </div>
+        <p class="break-all w-full">{company.description}</p>
+    </Card>
+    {/if}
     <Card class="w-full {bgColor} p-6">
         <div class="row gap-4 mb-6">
             <MessageCircle class="text-primary" />
