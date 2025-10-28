@@ -8,6 +8,11 @@ from flask import request, jsonify, abort
 from authHandler import authenticate, AuthenticationResult
 from models.extensions import db
 from datetime import datetime, timedelta, timezone
+from sqlalchemy import or_
+from models.keyword import Keyword
+from models.company import Company
+from models.category import Category
+
 
 page = Blueprint('page', __name__)
 
@@ -21,6 +26,20 @@ def home():
     rating = request.args.get("rating", type=int)
     query = Company.query
 
+    search_term = request.args.get("search", type=str)
+    
+    if search_term:
+        search_filter = f'%{search_term}%'
+        
+        search_conditions = or_(
+            Company.name.ilike(search_filter),
+            Company.categories.any(
+                Category.keywords.any(Keyword.keyword.ilike(search_filter))
+            )
+        )
+        
+        query = query.filter(search_conditions)
+
     if rating is not None and 1 <= rating <= 5:
         query = query.filter(Company.rating >= rating)
 
@@ -29,15 +48,17 @@ def home():
         query = query.filter(
             Company.categories.any(Category.name.in_([category]))
         )
-
-    page_obj = query.paginate(per_page=20, page=page + 1)
+        
+    query = query.distinct()
+    
+    page_obj = query.paginate(per_page=20, page=page + 1, error_out=False)
     companies = page_obj.items
 
     return jsonify({
         'pages': page_obj.pages,
+        'current_page': page,
         'companies': [company.to_dict() for company in companies]
     })
-
 
 
 @page.route('/company/<int:company_id>')
