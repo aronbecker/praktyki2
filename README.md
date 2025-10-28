@@ -78,7 +78,9 @@ Stwórz plik `.env` ze zmienną `db_URI`, która powinna być ustawiona na adres
 
 `flask db upgrade` - komenda zapisująca zmiany w bazie danych (używać po użyciu komendy `migrate`)
 
-`python app.py` - uruchamia serwer 
+`cd ..` - cofniecie się folder do tyłu
+
+`py -m backend.app` - uruchamia serwer 
 
 # \### Wymagania wstępne
 
