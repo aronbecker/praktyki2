@@ -13,6 +13,10 @@
     let category: string | null = $state(null)
     let text: string | null = $state(null)
 
+    async function loadMoreCompanies_() {
+        loadMoreCompanies(rating, category, text)
+    }
+
     async function loadMoreCompanies(rating: number, category: string | null, search: string | null = null) {
         currentPage += 1
         page = await getCompanies(currentPage, rating, category, search)
@@ -59,6 +63,6 @@
 </div>
 {#if page.pages - 1 > currentPage}
     <div class="w-max mx-auto">
-        <Button onclick={loadMoreCompanies}>Załaduj więcej</Button>
+        <Button onclick={loadMoreCompanies_}>Załaduj więcej</Button>
     </div>    
 {/if}
