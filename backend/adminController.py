@@ -1,4 +1,5 @@
-from flask import Blueprint
+from flask import Blueprint, jsonify
+from models.keyword import Keyword
 from dtos.companyDto import CompanyDto
 from utils.requestToDtoConverter import convert
 from models import Company, User, Address, Category, db
@@ -110,6 +111,41 @@ def deleteCompany(company_id):
     db.session.commit()
 
     return "", 200
+
+@admin.route('/admin/categories')
+def getCategories():
+    user = throwIfNotAdmin(request)
+    if (user == None): return
+
+    categories = Category.query.all()
+
+    return jsonify({
+        "categories": [c.toDict() for c in categories]
+    }), 200
+
+
+@admin.route('/admin/categories/<int:category_id>', methods=['PATCH'])
+def updateCategories(category_id):
+    user = throwIfNotAdmin(request)
+    if (user == None): return
+
+    data = request.get_json()
+    category = Category.query.filter_by(id=category_id).first_or_404("Category not found")
+
+    keywords = data.get("keywords")
+
+    keywordsEntities = []
+    for k in keywords:
+        keyword = Keyword.query.filter_by(keyword=k).first()
+        if not keyword:
+            keyword = Keyword(keyword = k, category_id = category.id)
+        keywordsEntities.append(keyword)
+
+    category.keywords = keywordsEntities
+    db.session.commit()
+    
+    return "", 200
+
 
 def throwIfNotAdmin(request_) -> User:
     isAuth = authenticate(request_)

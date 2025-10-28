@@ -7,3 +7,10 @@ class Category(db.Model):
 
     companies = db.relationship('Company', secondary='company_category', back_populates="categories")
     keywords = db.relationship('Keyword', backref='category')
+
+    def toDict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "keywords": [k.keyword for k in self.keywords]
+        }
