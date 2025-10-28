@@ -9,20 +9,26 @@
     let companies = $state(data.page.companies)
     let currentPage = $state(0)
     let page = $state(data.page)
+    let rating = $state(-1)
+    let category: string | null = $state(null)
+    let text: string | null = $state(null)
 
-    async function loadMoreCompanies(rating: number, category: string | null) {
+    async function loadMoreCompanies(rating: number, category: string | null, search: string | null = null) {
         currentPage += 1
-        page = await getCompanies(currentPage, rating, category)
+        page = await getCompanies(currentPage, rating, category, search)
         companies = [...companies, ...page.companies]
     }
 
-    function onSearch(text: String) {
-        alert("Wyszukiwanie " + text)
+    async function onSearch(text_: string) {
+        text = text_ == "" ? null : text_
+        currentPage = -1
+        companies = []
+        await loadMoreCompanies(rating, category, text)
     }
 
     async function onFilterSortChange(category_: string, rating_: string) {
-        let rating = 0
-        let category: string | null = null
+        rating = 0
+        category = null
         currentPage = -1
         companies = []
 
@@ -34,7 +40,7 @@
             category = category_
         }
 
-        await loadMoreCompanies(rating, category)
+        await loadMoreCompanies(rating, category, text)
     }
 </script>
 

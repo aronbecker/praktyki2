@@ -2,10 +2,14 @@ import { BACKEND_URL } from "./backendUrl";
 import type { CompanyDto } from "./dtos/companyDto";
 import { fetcher } from "./fetcher";
 
-export async function getCompanies(page: number, minRating: number = 0, category: string | null): Promise<object> {
+export async function getCompanies(page: number, minRating: number = 0, category: string | null = null, search: string | null = null): Promise<object> {
     let url = `${BACKEND_URL}/companies?page=${page}&rating=${minRating}`
     if (category) {
         url += `&category=${category}`
+    }
+
+    if (search) {
+        url += `&search=${search}`
     }
 
     const res = await fetcher(url, {

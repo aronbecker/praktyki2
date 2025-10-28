@@ -14,7 +14,7 @@
         <Search class="h-[1.4rem] w-[1.4rem] mx-2 text-muted-foreground" />
         <Input
             class="focus-visible:ring-0 border-none"
-            bind:value="{text}"
+            bind:value={text}
             placeholder="Wyszukaj specializacjie lub słowo kluczowe"
             style="background: transparent"
         />
