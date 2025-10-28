@@ -2,6 +2,7 @@
     import { Button } from "$lib/components/ui/button";
     import Input from "$lib/components/ui/input/input.svelte";
     import { Validator } from "$lib/validator";
+    import Textarea from "./ui/textarea/textarea.svelte";
 
     const inputStyles = "h-12"
     const doubleInputWrapper = "row gap-2"
@@ -23,6 +24,7 @@
         categories = [],
         nip = "",
         regon = "",
+        description = "",
         onSubmit
     } = $props()
 
@@ -33,7 +35,7 @@
     validator.addField("phone", () => phone, 
         (str) => str.replaceAll(" ", "").length == 9 || str.length == 0)
     validator.addField("town", () => town, (str) => str.length > 3)
-    validator.addField("street", () => street, (str) => str.length > 2)
+    validator.addField("street", () => street, (str) => true)
     validator.addField("building", () => building, (str) => str.length > 0)
     validator.addField("nip", () => nip, (str) => str.length == 10)
     validator.addField("regon", () => regon, (str) => 7 <= str.length && str.length < 10)
@@ -75,7 +77,8 @@
             apartment_number: apartment,
             categories: categories,
             nip: nip,
-            regon: regon
+            regon: regon,
+            description: description
         }
         await onSubmit(payload)
     }
@@ -106,7 +109,8 @@
         <Input bind:value={building} class={inputStyles} placeholder="Numer budynku" type="text" />
         <Input bind:value={apartment} class={inputStyles} placeholder="Numer lokalu (opcjonalne)" type="number" />
     </div>
-
+    <p class={descriptinonStyles}>Opis</p>
+    <Textarea bind:value={description} placeholder="Opis firmy" class="resize-none h-24"/>
     <p class={descriptinonStyles}>Kategorie</p>
 
     <div class="row gap-2 items-center w-full max-w-[600px]">

@@ -28,11 +28,17 @@
    return res
  }
 
+ function getCompanyDescription(id: string) {
+   const res = companies.filter((c: CompanyDto) => c.id === Number(id))[0].description
+   return res
+ }
+
  function openEditCompanyDialog(data: any) {
    const values: any[] = []
    data.forEach((d:any) => {
       values.push(d.getValue())
    })
+   values.push(getCompanyDescription(data[0].getValue()))
    values.push(getCompanyCategories(data[0].getValue()))
    setDialog({
       code: 2,

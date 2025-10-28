@@ -28,7 +28,7 @@
 </script>
 
 <Dialog.Root open={true} onOpenChange={(open) => setDialog({code: open ? 1 : 0})}>
-    <Dialog.Content class="backdrop-blur-lg">
+    <Dialog.Content class="backdrop-blur-lg overflow-y-auto max-h-screen">
         <CompanyForm 
             nip={companyData[1]}
             regon={companyData[2]}
@@ -41,7 +41,8 @@
             street={companyData[9]}
             building={companyData[10]}
             apartment={companyData[11]}
-            categories={companyData[12]}
+            description={companyData[12]}
+            categories={companyData[13]}
             onSubmit={edit}
         />
     </Dialog.Content>

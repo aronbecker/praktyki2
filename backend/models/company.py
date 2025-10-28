@@ -45,6 +45,7 @@ class Company(db.Model):
             'ratingCount': self.ratingCount,
             'nip': self.nip,
             'regon': self.regon,
+            'description': self.description,
             'address': {
                 'town': self.address.town,
                 'street': self.address.street,

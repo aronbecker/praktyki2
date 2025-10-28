@@ -22,6 +22,7 @@ def addCompany():
     street = data.get("street").strip()
     building_number = data.get("building_number").strip()
     apartment_number = data.get("apartment_number")
+    description = data.get("description")
 
     addres = Address(
         town,
@@ -49,6 +50,7 @@ def addCompany():
             category = Category(name=name)
         categoriesEntities.append(category)
 
+    company.description = description
     company.categories = categoriesEntities
     company.address = addres
 
@@ -78,6 +80,7 @@ def editCompany(company_id):
     company.address.street = data.get("street").strip()
     company.address.building_number = data.get("building_number").strip()
     company.address.apartment_number = data.get("apartment_number")
+    company.description = data.get("description")
 
     categories = data.get("categories")
 
