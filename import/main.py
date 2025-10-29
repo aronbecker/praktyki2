@@ -10,7 +10,7 @@ def main():
     pymysql.install_as_MySQLdb()
 
     if len(sys.argv) < 2:
-        raise Exception("❌ Nazwa bazy danych nie podana (sprawdź readme)")
+        raise Exception("❌ Adres bazy danych nie podany (sprawdź readme)")
 
     db_url = sys.argv[1]
 
