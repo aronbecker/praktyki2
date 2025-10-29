@@ -12,10 +12,10 @@ def main():
     if len(sys.argv) < 2:
         raise Exception("❌ Nazwa bazy danych nie podana (sprawdź readme)")
 
-    db_name = sys.argv[1]
+    db_url = sys.argv[1]
 
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost/" + db_name
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_url
     db.init_app(app)
 
     with app.app_context():

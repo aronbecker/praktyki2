@@ -4,4 +4,4 @@ Najpierw trzeba zainstalować te 2 zależności
 
 Należy terminal w lokalizacji root (/) projektu wykonać
 
-`py -m import.main nazwabazydanych`
+`py -m import.main database_url` (np. mysql://root:@localhost/)praktyki
